@@ -1,24 +1,20 @@
 import QtQuick
+import Quickshell
 
 import "../config"
 
 Row {
     spacing: 10
 
-    Text {
-        text: "Wi-Fi"
-        color: Colors.textSecondary
-        font.pixelSize: 12
+    SystemClock {
+        id: clock
+
+        precision: SystemClock.Minutes
     }
 
     Text {
-        text: "◖"
-        color: Colors.textSecondary
-        font.pixelSize: 12
-    }
+        text: Qt.formatDateTime(clock.date, "HH:mm")
 
-    Text {
-        text: "12:34"
         color: Colors.text
         font.pixelSize: 12
     }
