@@ -1,0 +1,12 @@
+# Editor and OS noise
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Backups created by link.sh when it moves an existing config aside
+*.bak
+*.bak.*
+
+# Shell and QML scratch output
+*.log
