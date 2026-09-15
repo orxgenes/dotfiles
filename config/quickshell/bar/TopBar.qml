@@ -1,4 +1,8 @@
 import QtQuick
+import Quickshell
+
+import "../components"
+import "../config"
 
 PanelWindow {
     id: root

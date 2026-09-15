@@ -1,4 +1,7 @@
 import QtQuick
+import Quickshell
+
+import "../components"
 
 AppIcon {
     property string command: ""

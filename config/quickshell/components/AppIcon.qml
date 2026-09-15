@@ -1,5 +1,7 @@
 import QtQuick
 
+import "../config"
+
 Rectangle {
     id: root
 

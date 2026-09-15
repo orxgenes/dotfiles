@@ -1,5 +1,7 @@
 import QtQuick
 
+import "../config"
+
 Row {
     spacing: 4
 
