@@ -76,13 +76,13 @@ log "Installing Hyprland"
 if command -v Hyprland >/dev/null 2>&1; then
     log "Hyprland is already installed"
 elif has_package hyprland; then
-    install_available_packages hyprland xdg-desktop-portal-hyprland
+    install_available_packages hyprland xdg-desktop-portal-hyprland hyprland-guiutils
 elif (( ENABLE_COPR )); then
     log "Enabling Copr repository ${HYPRLAND_COPR}"
     sudo dnf copr enable -y "${HYPRLAND_COPR}"
     sudo dnf makecache
 
-    install_available_packages hyprland xdg-desktop-portal-hyprland
+    install_available_packages hyprland xdg-desktop-portal-hyprland hyprland-guiutils
 else
     warn "Hyprland is not available from the enabled repositories."
     cat <<EOF

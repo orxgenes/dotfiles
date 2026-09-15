@@ -34,6 +34,11 @@ make link            # just (re)link the configs
 
 Afterwards, log out and start a Hyprland session.
 
+Start it from a TTY with `start-hyprland`, not by invoking `Hyprland`
+directly. Hyprland warns (and will eventually refuse) when started any other
+way, because `start-hyprland` sets up the session properly. A display manager
+launching the shipped desktop entry is fine.
+
 ## Hyprland is not in Fedora's repositories
 
 Hyprland has never been packaged by Fedora, so `make hyprland` cannot install
@@ -116,6 +121,7 @@ install/
 | `SUPER` `Q`           | Close window                    |
 | `SUPER` `V`           | Toggle floating                 |
 | `SUPER` `F`           | Toggle fullscreen               |
+| `SUPER` `P`           | Toggle pseudotiling (per window) |
 | `SUPER` `H` `J` `K` `L` | Move focus (left, down, up, right) |
 | `SUPER` `Shift` `H` `J` `K` `L` | Move window             |
 | `SUPER` `1`–`0`       | Switch to workspace 1–10        |
@@ -136,6 +142,20 @@ Change a value there and reload with `make reload`.
 
 ## Notes
 
+- This repo's Hyprland config is written in the `.conf` (hyprlang) format.
+  Hyprland is migrating to a Lua configuration file, `hyprland.lua`, and
+  **`.conf` support is removed in 0.57** — Hyprland says so on startup. The
+  format itself still works before then, so nothing here is broken yet, but
+  this config needs rewriting as Lua before upgrading past 0.56. Migrated
+  configs live beside a `require()`-based split, which maps onto the current
+  `source =` lines.
+- Deprecated syntax this repo has already been updated for: `windowrulev2`
+  became `windowrule` (the v1 and v2 forms were merged), and the
+  `dwindle:pseudotile` option was removed in favour of the per-window `pseudo`
+  dispatcher, now bound to `SUPER` `P`.
+- `hyprland-guiutils` is a runtime dependency of some Hyprland dialogs and is
+  installed alongside Hyprland. Without it Hyprland prints a warning on
+  startup.
 - The shell is written against a recent Quickshell. Its QML API moves quickly,
   so `Hyprland.*`, `Quickshell.iconPath()` and `SystemClock` in particular may
   need adjusting for older versions.
