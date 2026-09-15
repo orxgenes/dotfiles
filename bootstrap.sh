@@ -3,31 +3,26 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=install/lib/common.sh
+source "${SCRIPT_DIR}/install/lib/common.sh"
 
-if [[ "${EUID}" -eq 0 ]]; then
-    echo "Do not run bootstrap.sh as root."
-    echo "Run it as your normal user; the installation scripts will use sudo."
-    exit 1
-fi
+require_non_root
+require_fedora
 
-if [[ ! -f /etc/fedora-release ]]; then
-    echo "This bootstrap currently supports Fedora only."
-    exit 1
-fi
-
-echo "==> Installing prerequisites"
+log "Installing prerequisites"
 "${SCRIPT_DIR}/install/00-prerequisites.sh"
 
-echo "==> Installing Hyprland"
+log "Installing Hyprland"
 "${SCRIPT_DIR}/install/10-hyprland.sh"
 
-echo "==> Installing Quickshell"
+log "Installing Quickshell"
 "${SCRIPT_DIR}/install/20-quickshell.sh"
+
+log "Linking configuration"
+"${SCRIPT_DIR}/link.sh"
 
 echo
 echo "Bootstrap complete."
 echo
 echo "Next:"
-echo "  1. Copy/symlink the Hyprland configuration."
-echo "  2. Copy/symlink the Quickshell configuration."
-echo "  3. Start a Hyprland session."
+echo "  1. Log out and start a Hyprland session."

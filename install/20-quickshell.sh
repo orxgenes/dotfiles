@@ -2,36 +2,38 @@
 
 set -euo pipefail
 
-if [[ "${EUID}" -eq 0 ]]; then
-    echo "Run this script as a normal user."
-    exit 1
-fi
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/common.sh
+source "${SCRIPT_DIR}/lib/common.sh"
 
-sudo -v
+require_non_root
+require_sudo
 
-echo "==> Checking for Quickshell package"
+log "Checking for Quickshell package"
 
-if dnf info quickshell >/dev/null 2>&1; then
-    echo "==> Installing Quickshell from enabled Fedora repositories"
-    sudo dnf install -y quickshell
+if has_package quickshell; then
+    log "Installing Quickshell from enabled Fedora repositories"
+    install_packages quickshell
 else
-    echo
-    echo "Quickshell is not available from the currently enabled Fedora repositories."
-    echo
-    echo "No third-party repository will be added automatically."
-    echo
-    echo "Install Quickshell using the currently supported upstream/Fedora"
-    echo "packaging method, then rerun this script."
+    cat <<'EOF'
+
+Quickshell is not available from the currently enabled Fedora repositories.
+
+No third-party repository will be added automatically.
+
+Install Quickshell using the currently supported upstream/Fedora
+packaging method, then rerun this script.
+
+EOF
     exit 1
 fi
 
-echo "==> Verifying installation"
+log "Verifying installation"
 
 if command -v qs >/dev/null 2>&1; then
     qs --version || true
 else
-    echo "Quickshell package installed but 'qs' was not found."
-    exit 1
+    die "Quickshell package installed but 'qs' was not found."
 fi
 
-echo "==> Quickshell installation complete"
+log "Quickshell installation complete"

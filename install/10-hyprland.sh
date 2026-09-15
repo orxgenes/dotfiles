@@ -2,28 +2,28 @@
 
 set -euo pipefail
 
-if [[ "${EUID}" -eq 0 ]]; then
-    echo "Run this script as a normal user."
-    exit 1
-fi
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/common.sh
+source "${SCRIPT_DIR}/lib/common.sh"
 
-sudo -v
+require_non_root
+require_sudo
 
-echo "==> Installing Hyprland"
+log "Installing Hyprland"
 
-sudo dnf install -y \
+install_packages \
     hyprland \
     xdg-desktop-portal-hyprland \
     xdg-desktop-portal \
     xwayland
 
-echo "==> Installing basic desktop utilities"
+log "Installing basic desktop utilities"
 
-sudo dnf install -y \
+install_packages \
     wofi \
     thunar \
     thunar-volman \
     gvfs \
     gvfs-mtp
 
-echo "==> Hyprland installation complete"
+log "Hyprland installation complete"
