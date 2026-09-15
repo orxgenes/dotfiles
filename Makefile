@@ -6,14 +6,15 @@ SHELL := /bin/bash
 
 .DEFAULT_GOAL := help
 
-.PHONY: help bootstrap prerequisites hyprland quickshell link unlink reload check
+.PHONY: help bootstrap prerequisites hyprland enable-hyprland-copr quickshell \
+	link unlink reload check
 
 help: ## Show available targets
 	@echo "Targets:"
 	@echo
 	@grep -hE '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) \
 		| sort \
-		| awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
+		| awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-22s\033[0m %s\n", $$1, $$2}'
 	@echo
 
 bootstrap: ## Install packages and link configs (full setup)
@@ -24,6 +25,9 @@ prerequisites: ## Install base desktop prerequisites
 
 hyprland: ## Install Hyprland and desktop utilities
 	./install/10-hyprland.sh
+
+enable-hyprland-copr: ## Enable the Hyprland Copr repo and install from it
+	./install/10-hyprland.sh --enable-copr
 
 quickshell: ## Install Quickshell
 	./install/20-quickshell.sh

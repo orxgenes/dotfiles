@@ -45,3 +45,26 @@ install_packages() {
     [[ $# -gt 0 ]] || return 0
     sudo dnf install -y "$@"
 }
+
+# dnf5 fails the entire transaction when any single package name does not
+# match, so one wrong or unavailable name would silently prevent everything
+# else from installing. Check each name first, install the ones that exist,
+# and report the rest instead of aborting.
+install_available_packages() {
+    local -a available=() missing=()
+    local pkg
+
+    for pkg in "$@"; do
+        if has_package "${pkg}"; then
+            available+=("${pkg}")
+        else
+            missing+=("${pkg}")
+        fi
+    done
+
+    if (( ${#missing[@]} > 0 )); then
+        warn "not available in the enabled repositories, skipping: ${missing[*]}"
+    fi
+
+    install_packages "${available[@]}"
+}
