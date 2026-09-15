@@ -1,0 +1,9 @@
+# ShellCheck resolves the path in a '# shellcheck source=' directive relative
+# to the working directory, not the file being checked. Every directive in
+# this repo is written relative to the directory the script lives in, so
+# without SCRIPTDIR the install/ scripts fail to resolve install/lib/common.sh
+# (SC1091) unless shellcheck happens to be run from the repo root.
+#
+# SCRIPTDIR makes those paths resolve against each script's own directory, so
+# the same command works no matter where it is invoked from.
+source-path=SCRIPTDIR
