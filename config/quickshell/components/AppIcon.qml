@@ -9,6 +9,10 @@ Rectangle {
     property string iconSource: ""
     property bool running: false
 
+    // Keeps the glyph clear of the tile edge; derived from iconSize
+    // rather than hardcoded so it tracks Appearance changes.
+    property int iconInset: 4
+
     width: Appearance.iconSize
     height: Appearance.iconSize
 
@@ -20,8 +24,8 @@ Rectangle {
     Image {
         anchors.centerIn: parent
 
-        width: 36
-        height: 36
+        width: root.width - root.iconInset * 2
+        height: root.height - root.iconInset * 2
 
         source: root.iconSource
         fillMode: Image.PreserveAspectFit

@@ -13,6 +13,10 @@ QtObject {
     readonly property int horizontalMargin: 10
     readonly property int bottomMargin: 10
 
+    // Space the dock reserves above itself, inside its own window.
+    readonly property int dockTopGap: 14
+    readonly property int dockPadding: 10
+
     readonly property int iconSize: 44
     readonly property int dockSpacing: 6
 }

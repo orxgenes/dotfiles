@@ -13,7 +13,7 @@ PanelWindow {
         right: true
     }
 
-    implicitHeight: Appearance.dockHeight + 24
+    implicitHeight: Appearance.dockHeight + Appearance.bottomMargin + Appearance.dockTopGap
 
     color: "transparent"
 
@@ -24,7 +24,7 @@ PanelWindow {
             bottomMargin: Appearance.bottomMargin
         }
 
-        width: dockRow.width + 20
+        width: dockRow.width + Appearance.dockPadding * 2
         height: Appearance.dockHeight
 
         Row {
@@ -36,25 +36,25 @@ PanelWindow {
 
             DockItem {
                 label: "Terminal"
-                iconSource: ""
-                command: "foot"
+                iconSource: Quickshell.iconPath("utilities-terminal")
+                command: "kitty"
             }
 
             DockItem {
                 label: "Files"
-                iconSource: ""
+                iconSource: Quickshell.iconPath("system-file-manager")
                 command: "thunar"
             }
 
             DockItem {
                 label: "Browser"
-                iconSource: ""
+                iconSource: Quickshell.iconPath("firefox")
                 command: "firefox"
             }
 
             DockItem {
                 label: "VS Code"
-                iconSource: ""
+                iconSource: Quickshell.iconPath("vscode")
                 command: "code"
             }
         }
